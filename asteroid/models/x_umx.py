@@ -319,7 +319,7 @@ class _InstrumentBackboneDec(nn.Module):
 class _STFT(nn.Module):
     def __init__(self, window_length, n_fft=4096, n_hop=1024, center=True):
         super(_STFT, self).__init__()
-        self.window = Parameter(torch.hann_window(window_length), requires_grad=False)
+        self.register_buffer('window', torch.hann_window(window_length))
         self.n_fft = n_fft
         self.n_hop = n_hop
         self.center = center
@@ -388,7 +388,7 @@ class _Spectrogram(nn.Module):
 class _ISTFT(nn.Module):
     def __init__(self, window, n_fft=4096, hop_length=1024, center=True):
         super(_ISTFT, self).__init__()
-        self.window = window
+        self.register_buffer('window', window)
         self.n_fft = n_fft
         self.hop_length = hop_length
         self.center = center
